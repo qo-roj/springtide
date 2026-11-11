@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.springtide.bridge"
+    android:versionCode="3"
+    android:versionName="0.5">
+
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application android:label="OBD Bridge">
+        <!-- 2026-11-11: the phone lost Magisk root at the 11-09 OTA reboot; the
+             service can no longer be started via `su -c am start-foreground-
+             service`. v0.5 makes the bridge root-independent:
+             - exported service: Termux can start it with the am
+               start-foreground-service command (with the user 0 flag) without
+               su (subject to platform background-FGS policy).
+             - LauncherActivity: a guaranteed tap-to-start path; starting an
+               FGS from a user-visible activity is always sanctioned.
+             - BootReceiver: BOOT_COMPLETED is a sanctioned FGS-launch
+               exemption for connectedDevice-type services on Android 15 —
+               the unattended-boot path the old su boot hook used to cover. -->
+        <activity android:name=".LauncherActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service
+            android:name=".BridgeService"
+            android:exported="true"
+            android:foregroundServiceType="connectedDevice" />
+        <receiver android:name=".BootReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,29 @@
+# secrets & signing (NEVER track — debug.keystore is an Android signing key)
+.env
+*.key
+*.pem
+debug.keystore
+
+# build artifacts (rebuild via build.sh / toolchain.sh)
+build/
+*.apk
+*.idsig
+__pycache__/
+*.py[cod]
+
+# voice generation intermediates (final fragments in voice/<theme>/ ARE tracked)
+voice/raw_*/
+
+# logs & runtime data
+*.log
+logs/
+*.wav.tmp
+
+# OS / editor
+.DS_Store
+*~
+*.swp
+
+# VCDS label data (Ross-Tech proprietary — private use only, NEVER push;
+# the public mirror must ship without this tree)
+labels/
