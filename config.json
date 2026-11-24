@@ -1,0 +1,25 @@
+{
+  "host": "127.0.0.1",
+  "port": 35000,
+  "poll_s": 5.0,
+  "ecu_miss_limit": 3,
+  "offline_probe_s": 30.0,
+  "elm_proto": "4",
+  "warm_c": 80.0,
+  "baseline_s": 600.0,
+  "baseline_min_samples": 40,
+  "regen_thresh_c": 92.0,
+  "confirm_s": 180.0,
+  "clear_s": 120.0,
+  "max_regen_s": 5400.0,
+  "heartbeat_s": 1800.0,
+  "dtc_poll_s": 60.0,
+  "voice": {
+    "enabled": true,
+    "lang": "en",
+    "volume": 14
+  },
+  "telegram": {
+    "enabled": false
+  }
+}
